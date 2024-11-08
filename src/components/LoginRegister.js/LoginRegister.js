@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginSuccess } from '../../authslice';
 import { SubHeading } from '../../components';
 import { images } from '../../constants';
 import './LoginRegister.css'
+import { selectIsAuthenticated, selectUser } from '../../authslice';
 
 const LoginRegister = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,11 +15,22 @@ const LoginRegister = () => {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState({});
+  const [registered, setregistered] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const users = useSelector(selectUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+    
+  useEffect(() => {
+    if (isAuthenticated && !registered) {
+      navigate('/home');
+    }
+  }, [isAuthenticated, registered, navigate]);
+  
   const handleSwitch = () => {
     setIsLogin(!isLogin);
     setErrors({}); 
-    setFormData({ email: '', password: '', confirmPassword: '' }); 
   };
 
   const handleChange = (e) => {
@@ -45,26 +60,47 @@ const LoginRegister = () => {
     } else if (password !== confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-
+    
     return newErrors;
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Form submitted:', formData);
+      if  (isLogin) {
+          const user = users.find(user => user.email === formData.email && user.password === formData.password);
+          if (user) {
+            console.log('Logged in with email:', formData.email);
+            dispatch(loginSuccess({email: formData.email, password: formData.password }));
+            setregistered(false);
+          } else {
+          console.log('Invalid credentials');
+          setErrors({password: 'Invalid credentials'});
+          alert('Invalid credentials. Please try again.')
+        }
+      }else {
+          console.log('Registered:', formData);
+          dispatch(loginSuccess({ email: formData.email, password: formData.password }));
+          alert('Registration successful! Now you can login.');
+          handleSwitch();
+      }
       setFormData({ email: '', password: '', confirmPassword: '' }); 
     } else {
       setErrors(validationErrors);
     }
   };
-
+  
   return (
-    <div className='login-register'>
-      <h1 className='app__header-h1'>Login in now to enhance your dining experience</h1>
-      <SubHeading title='Login Now'/>
-      <form onSubmit={handleSubmit}>
+  <div className='login-register-background' style={{ backgroundImage: `url(${images.LoginBg})` }}>
+    <div className='login-register-container'>
+      <div className='login-register-content'>
+      <SubHeading  title='Login Now'/>
+      <h1 className='headtext__cormorant'>Login in now to enhance your dining experience</h1>
+      </div>
+
+      <form className='login-form' onSubmit={handleSubmit}>
+
         <input
           type="text"
           name="email"
@@ -72,7 +108,7 @@ const LoginRegister = () => {
           value={formData.email}
           onChange={handleChange}
           required
-        />
+          />
         {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
         
         <input
@@ -82,7 +118,7 @@ const LoginRegister = () => {
           value={formData.password}
           onChange={handleChange}
           required
-        />
+          />
         {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
         
         {!isLogin && (
@@ -94,20 +130,18 @@ const LoginRegister = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-            />
+              />
             {errors.confirmPassword && <span style={{ color: 'red' }}>{errors.confirmPassword}</span>}
           </>
         )}
         
-        <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
-      </form>
-      <button onClick={handleSwitch}>
+      <button  className='login-button' type="submit">{isLogin ? 'Login' : 'Register'}</button>
+      <button className='switch-button' onClick={handleSwitch}>
         {isLogin ? 'Switch to Register' : 'Switch to Login'}
       </button>
-      <div className='app__wrappper_img'>
-      <img className='login-register_img' src={images.welcome} alt='header img'/>
+      </form>
     </div>
-    </div>
+  </div>
   );
 };
 

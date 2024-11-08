@@ -23,9 +23,9 @@ const App = () => (
           <Footer />
           </>
         } />
-          <Route path='/login' Component={LoginRegister} />
-          <Route path='/register' Component={LoginRegister} />
-          <Route path='/book-table' Component={BookTable} />
+          <Route path='/login' element={<LoginRegister />} />
+          <Route path='/register' element={<LoginRegister />} />
+          <Route path='/book-table' element={<BookTable />} />
         </Routes>
       </div>
     </Router>

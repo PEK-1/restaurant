@@ -20,6 +20,8 @@ import award05 from '../assets/award05.png';
 import sign from '../assets/sign.png';
 import quote from '../assets/quote.png';
 import indienne from '../assets/indienne.png';
+import LoginBg from '../assets/Login_bg.png';
+import LoginWel from '../assets/Login_wel.png';
 
 export default {
   bg,
@@ -44,4 +46,6 @@ export default {
   sign,
   quote,
   indienne,
+  LoginBg,
+  LoginWel,
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './BookTable.css'
+import { images } from '../../constants';
 import SubHeading from '../SubHeading/SubHeading';
 const BookTable = () => {
   const [name, setName] = useState('');
@@ -13,7 +14,19 @@ const BookTable = () => {
   };
 
   return (
-    <div className='book-table'>
+    <div className='book-table'
+    
+    style={{
+       backgroundImage: `url(${images.loginBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        padding: '20px',
+        borderRadius: '8px',
+        color: 'var(--color-golden)'
+    }}
+
+    >
       <h2>"Don't just eat, indulge! Secure your spot at our table for an unforgettable dining experience."</h2>
       <SubHeading title='Book a Table' />
       <form onSubmit={handleSubmit}>
