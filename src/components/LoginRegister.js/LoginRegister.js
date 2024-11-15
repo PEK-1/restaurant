@@ -23,6 +23,14 @@ const LoginRegister = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
     
   useEffect(() => {
+    const userEmail = localStorage.getItem('userEmail');
+    if (userEmail) {
+      dispatch(loginSuccess({ email: userEmail }));
+      navigate('/home');
+    }
+  }, [dispatch, navigate]);
+  
+  useEffect(() => {
     if (isAuthenticated && !registered) {
       navigate('/home');
     }
@@ -64,32 +72,52 @@ const LoginRegister = () => {
     return newErrors;
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length === 0) {
-      if  (isLogin) {
-          const user = users.find(user => user.email === formData.email && user.password === formData.password);
-          if (user) {
-            console.log('Logged in with email:', formData.email);
-            dispatch(loginSuccess({email: formData.email, password: formData.password }));
-            setregistered(false);
-          } else {
-          console.log('Invalid credentials');
-          setErrors({password: 'Invalid credentials'});
-          alert('Invalid credentials. Please try again.')
+      try {
+        const endpoint = isLogin ? '/api/login' : '/api/register';
+        console.log('Sending request to:', endpoint);
+        const response = await fetch(`http://localhost:5000${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
+  
+        const data = await response.json();
+        console.log('Login response:', data);
+  
+        if (!response.ok) {
+          setErrors({ password: data.error });
+          alert(data.error);
+          return;
         }
-      }else {
-          console.log('Registered:', formData);
-          dispatch(loginSuccess({ email: formData.email, password: formData.password }));
+  
+        if (isLogin) {
+          console.log('Logged in successfully:', data.user);
+          dispatch(loginSuccess(data.user));
+          localStorage.setItem('userEmail', data.user.email);
+          navigate('/home');
+        } else {
+          console.log('Registered successfully');
           alert('Registration successful! Now you can login.');
           handleSwitch();
+        }
+  
+        setFormData({ email: '', password: '', confirmPassword: '' });
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Something went wrong. Please try again.');
       }
-      setFormData({ email: '', password: '', confirmPassword: '' }); 
     } else {
       setErrors(validationErrors);
     }
   };
+  
   
   return (
   <div className='login-register-background' style={{ backgroundImage: `url(${images.LoginBg})` }}>
