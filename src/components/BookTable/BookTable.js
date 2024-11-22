@@ -8,9 +8,33 @@ const BookTable = () => {
   const [time, setTime] = useState('');
   const [guests, setGuests] = useState(1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Table booked for ${guests} guests on ${date} at ${time}`);
+
+    const bookingData = { name, date, time, guests };
+
+    try {
+      const response = await fetch('http://localhost:5000/api/book-table', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bookingData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('Table booked successfully!');
+        setName('');
+        setDate('');
+        setTime('');
+        setGuests(1);
+      } else {
+        alert(result.error || 'An error occurred while booking.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while booking.');
+    }
   };
 
   return (

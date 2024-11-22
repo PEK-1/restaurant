@@ -16,7 +16,10 @@ const App = () => {
         }
         return response.json();
       })
-      .then((data) => setMenuData(data)) 
+      .then((data) => {
+        console.log('Fetched Menu Data:', data);
+      setMenuData(data);
+    })
       .catch((error) => setError(error.message)); 
   }, []);
 
@@ -39,8 +42,8 @@ const App = () => {
               <Footer />
             </>
           } />
-          <Route path='/login' element={<LoginRegister />} />
-          <Route path='/register' element={<LoginRegister />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
           <Route path='/book-table' element={<BookTable />} />
         </Routes>
         {error && <p>Error: {error}</p>}

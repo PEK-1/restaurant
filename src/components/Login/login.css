@@ -1,0 +1,93 @@
+.login-background {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  
+  .login-container {
+    padding: 2rem;
+    border: 1px solid var(--color-golden);
+    font-family: var(--font-base);
+    background-color: rgba(0, 0, 0, 0.7);
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    margin-top: 7rem;
+  }
+  
+  .login-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+    align-items: center;
+  }
+  
+  .login-form input {
+    width: 60%;
+    max-width: 620px;
+    border: 1px solid var(--color-golden);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: var(--font-base);
+    color: var(--color-golden);
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-black);
+  }
+  
+  .login-button {
+    font-family: var(--font-base);
+    width: max-content;
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-golden);
+    color: var(--color-black);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: var(--color-grey);
+  }
+  
+  @media screen and (max-width: 990px) {
+    .login-container {
+      width: 100%;
+      padding: 2rem;
+    }
+  
+    .login-form input {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  @media screen and (max-width: 650px) {
+    .login-container {
+      padding: 2rem 0;
+      border: none;
+    }
+  }
+  

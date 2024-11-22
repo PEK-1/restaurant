@@ -38,6 +38,16 @@ app.get('/', (req, res) => {
     res.send('Hello, world! This is the root endpoint.');
   });
 
+  app.get('/api/menu', (req, res) => {
+    db.query('SELECT * FROM menu', (error, results) => {
+      if (error) {
+        console.error('Error fetching menu:', error);
+        return res.status(500).send({ error: 'Database error' });
+      }
+      res.status(200).json(results);
+    });
+  });
+
 app.post('/api/register', async (req, res) => {
   const { email, password } = req.body;
 
@@ -61,6 +71,9 @@ app.post('/api/register', async (req, res) => {
           console.error('Database error:', error);
           return res.status(500).send({ error: 'Database error' });
         }
+        console.log(`User registered: ${email}`);
+
+        
         res.status(201).send({ message: 'User registered successfully' });
       }
     );
@@ -73,9 +86,6 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
 
-  console.log('Received login request for email:', email);
-
-
   const validation = validateUserInput(email, password);
   if (!validation.valid) {
     return res.status(400).send({ error: validation.error });
@@ -86,8 +96,6 @@ app.post('/api/login', (req, res) => {
       console.error('Database error:', error);
       return res.status(500).send({ error: 'Database error' });
     }
-
-    console.log('Query Results:', results);
 
     if (results.length === 0) {
       return res.status(401).send({ error: 'Invalid credentials' });
@@ -109,6 +117,36 @@ app.post('/api/login', (req, res) => {
     }
   });
 });
+
+app.post('/api/book-table', (req, res) => {
+    const { name, date, time, guests } = req.body;
+
+    db.query(
+        'INSERT INTO bookings (name, date, time, guests) VALUES (?, ?, ?, ?)',
+        [name, date, time, guests],
+        (error) => {
+            if (error) {
+                if (error.code === 'ER_DUP_ENTRY') {
+                    return res.status(400).send({ error: 'This time slot is already booked. Please choose another.' });
+                }
+                console.error('Database error:', error);
+                return res.status(500).send({ error: 'Database error' });
+            }
+            res.status(201).send({ message: 'Table booked successfully' });
+        }
+    );
+});
+
+app.get('/api/bookings', (req, res) => {
+  db.query('SELECT * FROM bookings', (error, results) => {
+      if (error) {
+          console.error('Database error:', error);
+          return res.status(500).send({ error: 'Database error' });
+      }
+      res.status(200).json(results);
+  });
+});
+
 
 const PORT = 5000;
 app.listen(PORT, () => {

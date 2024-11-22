@@ -4,6 +4,9 @@ import { images } from '../../constants';
 import './SpecialMenu.css';
 
 const SpecialMenu = ({ menuData }) => {
+
+  console.log('Menu Data in SpecialMenu:', menuData);
+  
   const wines = menuData.filter(item => item.type === 'wine');
   const cocktails = menuData.filter(item => item.type === 'cocktail');
 
