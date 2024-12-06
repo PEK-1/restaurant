@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AboutUs, Chef, FindUs, Footer, Gallery, Header, Intro, Laurels, SpecialMenu } from './container';
-import { Navbar, LoginRegister, BookTable } from './components';
+import { Navbar, BookTable, Login, Register, Admin, MyBookings } from './components';
 import './App.css';
 
 const App = () => {
@@ -45,6 +45,8 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/book-table' element={<BookTable />} />
+          <Route path='/admin' element={<Admin/>} />
+          <Route path='/my-bookings' element={<MyBookings />} />
         </Routes>
         {error && <p>Error: {error}</p>}
       </div>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { SubHeading } from '../../components';
+import { SubHeading } from '..';
+import { useNavigate } from 'react-router-dom';
 import { images } from '../../constants';
-import './Register.css';
+import { FaHamburger } from 'react-icons/fa';
+import './register.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +12,8 @@ const Register = () => {
     confirmPassword: '',
   });
   const [errors, setErrors] = useState({});
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,8 +64,13 @@ const Register = () => {
           return;
         }
 
-        alert('Registration successful! Now you can login.');
-        setFormData({ email: '', password: '', confirmPassword: '' }); // Clear form fields
+        setShowModal(true);
+        setTimeout(() => {
+          setShowModal(false);
+          setFormData({ email: '', password: '',confirmPassword: ''});
+          navigate('/login');
+        }, 2000);
+
       } catch (error) {
         console.error('Error:', error);
         alert('Something went wrong. Please try again.');
@@ -69,6 +78,10 @@ const Register = () => {
     } else {
       setErrors(validationErrors);
     }
+  };
+
+  const handleSwitchToLogin = () => {
+    navigate('/login');
   };
 
   return (
@@ -87,7 +100,7 @@ const Register = () => {
             value={formData.email}
             onChange={handleChange}
             required
-          />
+            />
           {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
 
           <input
@@ -97,7 +110,7 @@ const Register = () => {
             value={formData.password}
             onChange={handleChange}
             required
-          />
+            />
           {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
 
           <input
@@ -107,12 +120,25 @@ const Register = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
             required
-          />
+            />
           {errors.confirmPassword && <span style={{ color: 'red' }}>{errors.confirmPassword}</span>}
 
           <button className='register-button' type="submit">Register</button>
+          <button className='switch-to-register-button' onClick={handleSwitchToLogin}>
+          Switch To Login
+        </button>
         </form>
       </div>
+
+      {showModal && (
+        <div className='modal'>
+          <div className='modal-content'>
+          <FaHamburger className='modal-icon' />
+            <h2>Registration successful!</h2>
+            <p>Redirecting you to the login page...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

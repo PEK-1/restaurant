@@ -22,6 +22,8 @@ import quote from '../assets/quote.png';
 import indienne from '../assets/indienne.png';
 import LoginBg from '../assets/Login_bg.png';
 import LoginWel from '../assets/Login_wel.png';
+import RegisterBg from '../assets/register_bg.png';
+import Plate from '../assets/plate_smoke.png';
 
 export default {
   bg,
@@ -33,6 +35,7 @@ export default {
   gallery04,
   knife,
   logo,
+  Plate,
   menu,
   overlaybg,
   spoon,
@@ -48,4 +51,5 @@ export default {
   indienne,
   LoginBg,
   LoginWel,
+  RegisterBg,
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { GiHamburgerMenu} from 'react-icons/gi';
-
 import { MdOutlineRestaurantMenu } from 'react-icons/md';
 import Weather from '../Weather';
 import images from '../../constants/images' ;
@@ -8,7 +8,8 @@ import './Navbar.css';
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
-  
+  const user = useSelector((state) => state.auth.user);
+
   return (
   <nav className='app__navbar'>
     <div className='app__navbar-logo'>
@@ -25,9 +26,19 @@ const Navbar = () => {
       <Weather />
     </div>
     <div className='app__navbar-login'>
+      {user ? (
+        <>
+          <a href='/my-bookings' className='p__opensans'>My Bookings</a>
+          <div/>
+          <a href='/book-table' className='p__opensans'>Book Table</a>
+        </>
+      ) : (
+        <>
       <a href='/login' className='p__opensans'>Login In / Register</a>
       <div/>
       <a href='/book-table' className='p__opensans'>Book Table</a>
+        </>
+      )}
     </div>
     <div className='app__navbar-smallscreen'>
       <GiHamburgerMenu color='#fff' fontSize={27} onClick={() => setToggleMenu(true)}/>     

@@ -12,6 +12,84 @@
     padding-top: 0;
 }
 
+.app__footer {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: 4rem 6rem;
+    border-top: 1px solid var(--color-golden);
+}
+
+.user-feedback {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    border: 1px solid var(--color-golden);
+    background: var(--color-black);
+}
+
+.feedback__heading {
+    font-size: 2rem;
+    color: var(--color-golden);
+    margin-bottom: 1rem;
+}
+
+.app__newsletter-input {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.app__newsletter-input textarea {
+    width: 620px;
+    height: 150px;
+    border: 1px solid var(--color-golden);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: var(--font-base);
+    color: var(--color-golden);
+    padding: 1rem;
+    background: var(--color-black);
+    resize: none;
+}
+
+.app__newsletter-input button {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    background-color: var(--color-golden);
+    color: var(--color-black);
+    border: none;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+.app__newsletter-input button:hover {
+    background-color: var(--color-grey);
+}
+
+@media screen and (max-width: 990px) {
+    .app__newsletter-input {
+        flex-direction: column;
+        width: 100%;
+    }
+    .app__newsletter-input textarea {
+        width: 100%;
+        margin: 0 0 2rem 0;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .app__footer {
+        padding: 2rem 0;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .feedback__heading {
+        font-size: 1.5rem;
+    }
+}
+
+
 .app__footer-links {
     width: 100%;
     display: flex;
