@@ -16,7 +16,7 @@ const BookTable = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/bookings'); 
+      const response = await fetch('http://localhost:3001/api/bookings'); 
       const data = await response.json();
       if (response.ok) {
         setBookings(data);
@@ -72,7 +72,7 @@ const BookTable = () => {
   }  
 
     try {
-      const response = await fetch('http://localhost:5000/api/book-table', {
+      const response = await fetch('http://localhost:3001/api/book-table', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookingData),

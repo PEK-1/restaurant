@@ -9,7 +9,7 @@ const App = () => {
   const [error, setError] = useState(null); 
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/menu')  
+    fetch('http://localhost:3001/api/menu')  
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

@@ -1,12 +1,30 @@
-import React from 'react';
+// src/containers/Menu/SpecialMenu.jsx
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { SubHeading, MenuItem } from '../../components';
+import { setMenuItems } from '../../menuSlice'; // Import the action to set menu items
 import { images } from '../../constants';
 import './SpecialMenu.css';
+import axios from 'axios';
 
-const SpecialMenu = ({ menuData }) => {
-
-  console.log('Menu Data in SpecialMenu:', menuData);
+const SpecialMenu = () => {
+  const dispatch = useDispatch();
   
+  // Fetch menu data from Redux store
+  const menuData = useSelector((state) => state.menu);
+
+  // Fetch menu data from the backend API
+  useEffect(() => {
+    axios.get('http://localhost:3001/api/menu')
+      .then((response) => {
+        dispatch(setMenuItems(response.data)); // Dispatch to Redux store to update menu data
+      })
+      .catch((error) => {
+        console.error('Error fetching menu:', error);
+      });
+  }, [dispatch]);
+
+  // Filter wines and cocktails from the menu data
   const wines = menuData.filter(item => item.type === 'wine');
   const cocktails = menuData.filter(item => item.type === 'cocktail');
 

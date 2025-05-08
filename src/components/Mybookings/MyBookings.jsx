@@ -9,7 +9,7 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/bookings?userId=${user.id}`);
+        const response = await fetch(`http://localhost:3001/api/bookings?userId=${user.id}`);
         const data = await response.json();
 
         if (!response.ok) {
