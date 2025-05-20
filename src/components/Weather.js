@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 const Weather = () => {
   const [weather, setWeather] = useState({ temperature: null, description: '' });
   const city = "Chicago"; 
-  const API_KEY = "2b48489910b25e006ab4b0e29e09b6d3"; 
+  const API_KEY = "enter you wheathapi here"; 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
